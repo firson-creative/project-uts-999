@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --green-dark: #0a2a1b;
+    --green-medium: #1a7d4a;
+    --green-light: #a3f5d0;
+    --background: #f0f3f8;
+    --card-bg: #ffffff;
+    --text-color: #1C2B3A;
+    --border-color: #dee2e6;
+    --shadow: 0 4px 12px rgba(42, 63, 84, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    color: var(--green-dark);
+}
+
+header {
+    background-color: var(--green-dark);
+    color: var(--green-light);
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+#input-forms { grid-column: 1 / -1; }
+#jadwal-display { grid-column: 1 / -1; }
+#tugas-display { grid-column: 1 / -1; }
+
+@media (min-width: 1200px) {
+    .container {
+        grid-template-columns: 1fr 2fr;
+    }
+    #pomodoro { grid-column: 1 / 2; }
+    #input-forms { grid-column: 1 / 2; }
+    #jadwal-display { grid-column: 2 / 3; grid-row: 1 / 2; }
+    #tugas-display { grid-column: 2 / 3; grid-row: 2 / 3; }
+}
+
+section {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.form-card {
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button, input[type="submit"] {
+    background-color: var(--green-medium);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: var(--green-dark);
+}
+
+#timer-display {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-align: center;
+    margin: 1rem 0;
+}
+
+#timer-controls button {
+    margin: 0.25rem;
+}
+
+#cancel-timer {
+    background-color: #c94c4c;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+.btn-delete {
+    color: #c94c4c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.alert-success {
+    background-color: var(--green-light);
+    color: var(--green-dark);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}

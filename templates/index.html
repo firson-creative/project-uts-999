@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Dasbor Mahasiswa</h1>
+    </header>
+
+    <main class="container">
+        <section id="pomodoro">
+            <h2>Timer Pomodoro</h2>
+            <div id="timer-display">25:00</div>
+            <div id="timer-controls">
+                <button id="start-pomodoro">Mulai</button>
+                <button id="start-short-break">Short Break</button>
+                <button id="start-long-break">Long Break</button>
+                <button id="cancel-timer">Batalkan</button>
+            </div>
+            <p id="pomodoro-status">Mode: Siap</p>
+        </section>
+
+        <section id="input-forms">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('index') }}" method="POST" class="form-card">
+                {{ form_jadwal.hidden_tag() }}
+                <h3>Tambah Jadwal Kuliah</h3>
+                {{ form_jadwal.nama_matkul.label }}
+                {{ form_jadwal.nama_matkul() }}
+                {{ form_jadwal.dosen.label }}
+                {{ form_jadwal.dosen() }}
+                {{ form_jadwal.hari.label }}
+                {{ form_jadwal.hari() }}
+                {{ form_jadwal.jam_mulai.label }}
+                {{ form_jadwal.jam_mulai() }}
+                {{ form_jadwal.jam_selesai.label }}
+                {{ form_jadwal.jam_selesai() }}
+                {{ form_jadwal.submit_jadwal() }}
+            </form>
+
+            <form action="{{ url_for('index') }}" method="POST" class="form-card">
+                {{ form_tugas.hidden_tag() }}
+                <h3>Tambah Tugas Kuliah</h3>
+                {{ form_tugas.mata_kuliah.label }}
+                {{ form_tugas.mata_kuliah() }}
+                {{ form_tugas.nama_tugas.label }}
+                {{ form_tugas.nama_tugas() }}
+                {{ form_tugas.deadline.label }}
+                {{ form_tugas.deadline() }}
+                {{ form_tugas.submit_tugas() }}
+            </form>
+        </section>
+
+        <section id="jadwal-display">
+            <h2>Jadwal Kuliah</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mata Kuliah</th>
+                        <th>Dosen</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jadwal in jadwals %}
+                    <tr>
+                        <td>{{ jadwal.nama_matkul }}</td>
+                        <td>{{ jadwal.dosen }}</td>
+                        <td>{{ jadwal.hari }}</td>
+                        <td>{{ jadwal.jam_mulai }} - {{ jadwal.jam_selesai }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_jadwal', id=jadwal.id) }}" class="btn-delete">Hapus</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5">Belum ada jadwal.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="tugas-display">
+            <h2>Daftar Tugas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mata Kuliah</th>
+                        <th>Tugas</th>
+                        <th>Deadline</th>
+                        <th>Sisa Waktu</th> <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tugas in tugas_list %}
+                    <tr>
+                        <td>{{ tugas.jadwal.nama_matkul }}</td>
+                        <td>{{ tugas.nama_tugas }}</td>
+                        <td>{{ tugas.deadline.strftime('%d-%m-%Y %H:%M') }}</td>
+                        <td class="countdown" data-deadline="{{ tugas.deadline.isoformat() }}">Menghitung...</td>
+                        <td><a href="{{ url_for('delete_tugas', id=tugas.id) }}" class="btn-delete">Hapus</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5">Belum ada tugas.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
