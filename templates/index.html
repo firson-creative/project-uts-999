@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Beranda - Student SNEM</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Dasbor Mahasiswa</h1>
+        <div class="header-inner container">
+            <div class="header-left">
+                <div class="logo-box">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+                </div>
+                <h1>STUDENT SNEM</h1>
+                <h3>Schedule and Exam Management</h3>
+            </div>
+            <div class="header-actions">
+                <span class="header-username">{{ session.get('username', 'User') }}</span>
+                <a class="btn-timer" href="{{ url_for('pomodoro') }}" target="_blank" rel="noopener" title="Buka Timer Pomodoro">⏱️ Timer</a>
+                <a class="btn-logout" href="{{ url_for('logout') }}" title="Keluar">🚪 Keluar</a>
+            </div>
+        </div>
     </header>
 
     <main class="container">
-        <section id="pomodoro">
-            <h2>Timer Pomodoro</h2>
-            <div id="timer-display">25:00</div>
-            <div id="timer-controls">
-                <button id="start-pomodoro">Mulai</button>
-                <button id="start-short-break">Short Break</button>
-                <button id="start-long-break">Long Break</button>
-                <button id="cancel-timer">Batalkan</button>
-            </div>
-            <p id="pomodoro-status">Mode: Siap</p>
-        </section>
+        <!-- Pomodoro hero removed; use header button (top-right) to access timer -->
 
         <section id="input-forms">
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -63,7 +66,10 @@
         </section>
 
         <section id="jadwal-display">
-            <h2>Jadwal Kuliah</h2>
+            <div class="section-header">
+                <h2>Jadwal Kuliah</h2>
+                <button class="btn-sort" onclick="toggleSort('jadwal')">⬇ Hari/Jam</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -71,7 +77,6 @@
                         <th>Dosen</th>
                         <th>Hari</th>
                         <th>Jam</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,14 +98,17 @@
         </section>
 
         <section id="tugas-display">
-            <h2>Daftar Tugas</h2>
+            <div class="section-header">
+                <h2>Daftar Tugas</h2>
+                <button class="btn-sort" onclick="toggleSort('tugas')">⬇ Deadline</button>
+            </div>
             <table>
                 <thead>
                     <tr>
                         <th>Mata Kuliah</th>
                         <th>Tugas</th>
                         <th>Deadline</th>
-                        <th>Sisa Waktu</th> <th>Aksi</th>
+                        <th>Sisa Waktu</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,6 +127,10 @@
             </table>
         </section>
     </main>
+
+    <footer class="site-footer container">
+        dibuat oleh Firson Creative bersama Google Gemini dan Github Copilot
+    </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro - Manajemen Tugas dan Jadwal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pomodoro.css') }}">
+</head>
+<body class="pomodoro-page">
+    <header>
+        <div class="header-inner container">
+            <div class="logo-box">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+            </div>
+            <h1>Timer Pomodoro</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-card pomodoro-card">
+            <div class="pomodoro-display">
+                <div id="timer-display">25:00</div>
+                <p id="pomodoro-status">Mode: Siap</p>
+            </div>
+
+            <div id="timer-controls" class="pomodoro-controls">
+                <button id="start-pomodoro" class="btn-primary">Mulai Belajar</button>
+                <button id="start-short-break" class="btn-secondary">Istirahat Singkat</button>
+                <button id="start-long-break" class="btn-secondary">Istirahat Panjang</button>
+                <button id="cancel-timer" class="btn-delete">Batalkan</button>
+            </div>
+
+            <div class="pomodoro-settings">
+                <h3>Pengaturan Durasi (menit)</h3>
+                <label>Belajar: <input id="study-duration" type="number" min="1" value="25"> menit</label>
+                <label>Istirahat Singkat: <input id="short-duration" type="number" min="1" value="5"> menit</label>
+                <label>Istirahat Panjang: <input id="long-duration" type="number" min="1" value="15"> menit</label>
+                <div class="settings-actions">
+                    <button id="save-durations" class="btn-primary">Simpan</button>
+                    <button id="reset-durations" class="btn-secondary">Reset Default</button>
+                </div>
+            </div>
+
+            <div class="back-home" style="margin-top:0.75rem; text-align:center;">
+                <a href="{{ url_for('index') }}" class="btn-timer-outline">← Kembali ke Beranda</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer container">
+        dibuat oleh Firson Creative bersama Google Gemini dan Github Copilot
+    </footer>
+
+    <script src="{{ url_for('static', filename='pomodoro.js') }}" defer></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, DateTimeLocalField, SubmitField
@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'kunci-rahasia-anda-yang-sangat-aman'
+app.config['SECRET_KEY'] = 'NAKUA-TOMATUA-MENDA-PAK-BOKO-PISSAN-G4YYY-IA'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'project.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -49,8 +49,30 @@ class TugasForm(FlaskForm):
     deadline = DateTimeLocalField('Deadline', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     submit_tugas = SubmitField('Tambah Tugas')
 
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    submit_login = SubmitField('Masuk')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        session['username'] = form.username.data
+        flash(f'Selamat datang, {form.username.data}!', 'success')
+        return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    flash('Anda telah keluar.', 'success')
+    return redirect(url_for('login'))
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
     form_jadwal = JadwalForm()
     form_tugas = TugasForm()
 
@@ -89,8 +111,11 @@ def index():
         flash('Tugas berhasil ditambahkan!', 'success')
         return redirect(url_for('index'))
 
-    jadwals = Jadwal.query.order_by('hari', 'jam_mulai').all()
+    jadwals = Jadwal.query.all()
     tugas_list = Tugas.query.order_by(Tugas.deadline.asc()).all()
+    
+    hari_urutan = {'Senin': 1, 'Selasa': 2, 'Rabu': 3, 'Kamis': 4, 'Jumat': 5, 'Sabtu': 6}
+    jadwals = sorted(jadwals, key=lambda x: (hari_urutan.get(x.hari, 7), x.jam_mulai))
 
     return render_template(
         'index.html',
@@ -100,6 +125,11 @@ def index():
         tugas_list=tugas_list,
         sekarang=datetime.now(timezone.utc)
     )
+
+
+@app.route('/pomodoro')
+def pomodoro():
+    return render_template('pomodoro.html')
 
 @app.route('/delete/jadwal/<int:id>')
 def delete_jadwal(id):

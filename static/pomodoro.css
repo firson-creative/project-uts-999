@@ -1,0 +1,104 @@
+/* Pomodoro-specific small tweaks */
+body.pomodoro-page { 
+    display: flex; 
+    flex-direction: 
+    column; min-height: 100vh; 
+}
+
+body.pomodoro-page main.container { 
+    flex: 1; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 2rem; 
+}
+
+.pomodoro-card { 
+    max-width: 720px; width: 100%; 
+    margin: 0; 
+    text-align: center; 
+    box-sizing: border-box; 
+}
+.pomodoro-display { 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    gap:0.25rem; 
+}
+
+.pomodoro-display #timer-display { 
+    font-size: 3.6rem; 
+    margin-bottom: 0.5rem; 
+}
+
+.pomodoro-controls { 
+    display:flex; 
+    gap:0.5rem; 
+    justify-content:center; 
+    flex-wrap:wrap; 
+    margin-bottom:1rem; 
+}
+
+.pomodoro-controls .btn-primary, .pomodoro-controls button, .pomodoro-controls .btn-accent { 
+    border-radius: 12px; 
+    padding: 0.6rem 1rem; 
+    border: 1px solid rgba(255,209,102,0.22); 
+    background: linear-gradient(180deg, rgba(255,209,102,0.20), rgba(255,209,102,0.08)); 
+    color: #0b1220; 
+    box-shadow: 0 10px 28px rgba(255,209,102,0.06); 
+}
+
+.pomodoro-controls .btn-secondary { 
+    border-radius: 12px; 
+    padding: 0.55rem 0.9rem; 
+    border: 1px solid rgba(255,255,255,0.06); 
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); 
+    color: var(--text-color); 
+}
+
+.pomodoro-settings { 
+    display:flex; 
+    gap:0.5rem; 
+    justify-content:center; 
+    align-items:center; 
+    flex-wrap:wrap; 
+}
+
+.pomodoro-settings label { 
+    color: var(--text-color); 
+    font-size:0.95rem; 
+    display:flex; 
+    gap:0.5rem; 
+    align-items:center; 
+}
+
+.pomodoro-settings input[type=number] { 
+    width:70px; 
+    padding:0.35rem; 
+    border-radius:6px; 
+    border:1px solid rgba(255,255,255,0.06); 
+    background: rgba(255,255,255,0.03); 
+    color:var(--text-color); 
+}
+.settings-actions { 
+    width:100%; 
+    display:flex; 
+    gap:0.5rem; 
+    justify-content:center; 
+    margin-top:0.5rem; 
+}
+
+@media (max-width: 700px) {
+	body.pomodoro-page main.container { padding: 1rem; }
+	.pomodoro-card { padding: 1rem; }
+	.pomodoro-display #timer-display { font-size: 2.6rem; }
+}
+
+/* Center header title only on Pomodoro page */
+body.pomodoro-page .header-inner { 
+    justify-content: center; 
+}
+body.pomodoro-page .logo-box { 
+    display: none; 
+}

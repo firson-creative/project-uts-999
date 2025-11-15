@@ -1,4 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let sortState = {
+        jadwal: 'asc',
+        tugas: 'asc'
+    };
+
+    window.toggleSort = function(type) {
+        sortState[type] = sortState[type] === 'asc' ? 'desc' : 'asc';
+        if (type === 'jadwal') sortJadwal(sortState[type]);
+        else if (type === 'tugas') sortTugas(sortState[type]);
+    };
+
+    function sortJadwal(direction) {
+        const tbody = document.querySelector('#jadwal-display tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr')).filter(r => r.querySelector('td'));
+        const hari_urutan = {'Senin': 1, 'Selasa': 2, 'Rabu': 3, 'Kamis': 4, 'Jumat': 5, 'Sabtu': 6};
+        rows.sort((a, b) => {
+            const order_a = hari_urutan[a.cells[2].textContent.trim()] || 7;
+            const order_b = hari_urutan[b.cells[2].textContent.trim()] || 7;
+            let result = order_a - order_b;
+            if (result === 0) result = a.cells[3].textContent.split(' - ')[0].localeCompare(b.cells[3].textContent.split(' - ')[0]);
+            return direction === 'asc' ? result : -result;
+        });
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
+    function sortTugas(direction) {
+        const tbody = document.querySelector('#tugas-display tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr')).filter(r => r.querySelector('td'));
+        rows.sort((a, b) => {
+            const deadline_a = new Date(a.cells[3].querySelector('.countdown').dataset.deadline);
+            const deadline_b = new Date(b.cells[3].querySelector('.countdown').dataset.deadline);
+            return direction === 'asc' ? deadline_a - deadline_b : deadline_b - deadline_a;
+        });
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
     const timerDisplay = document.getElementById('timer-display');
     const statusDisplay = document.getElementById('pomodoro-status');
     const startPomodoroBtn = document.getElementById('start-pomodoro');
@@ -6,47 +42,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const startLongBreakBtn = document.getElementById('start-long-break');
     const cancelTimerBtn = document.getElementById('cancel-timer');
 
-    let timerInterval = null;
-    let secondsRemaining = 25 * 60;
+    // Only run the inline timer logic when the timer elements exist (index.html no longer contains timer)
+    if (timerDisplay) {
+        let timerInterval = null;
+        let secondsRemaining = 25 * 60;
 
-    function startTimer(durationMinutes, mode) {
-        clearInterval(timerInterval);
-        secondsRemaining = durationMinutes * 60;
-        statusDisplay.textContent = `Mode: ${mode}`;
-        updateDisplay();
-
-        timerInterval = setInterval(() => {
-            secondsRemaining--;
+        function startTimer(durationMinutes, mode) {
+            clearInterval(timerInterval);
+            secondsRemaining = durationMinutes * 60;
+            statusDisplay.textContent = `Mode: ${mode}`;
             updateDisplay();
 
-            if (secondsRemaining <= 0) {
-                clearInterval(timerInterval);
-                statusDisplay.textContent = "Mode: Selesai!";
-                timerDisplay.textContent = "00:00";
-                alert("Waktu Habis!");
-            }
-        }, 1000);
-    }
+            timerInterval = setInterval(() => {
+                secondsRemaining--;
+                updateDisplay();
 
-    function updateDisplay() {
-        const minutes = Math.floor(secondsRemaining / 60);
-        const seconds = secondsRemaining % 60;
-        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
+                if (secondsRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    statusDisplay.textContent = "Mode: Selesai!";
+                    timerDisplay.textContent = "00:00";
+                    alert("Waktu Habis!");
+                }
+            }, 1000);
+        }
 
-    function cancelTimer() {
-        clearInterval(timerInterval);
-        secondsRemaining = 25 * 60;
+        function updateDisplay() {
+            const minutes = Math.floor(secondsRemaining / 60);
+            const seconds = secondsRemaining % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function cancelTimer() {
+            clearInterval(timerInterval);
+            secondsRemaining = 25 * 60;
+            updateDisplay();
+            statusDisplay.textContent = "Mode: Dibatalkan";
+        }
+
+        if(startPomodoroBtn) startPomodoroBtn.addEventListener('click', () => startTimer(25, 'Belajar'));
+        if(startShortBreakBtn) startShortBreakBtn.addEventListener('click', () => startTimer(5, 'Istirahat Singkat'));
+        if(startLongBreakBtn) startLongBreakBtn.addEventListener('click', () => startTimer(15, 'Istirahat Panjang'));
+        if(cancelTimerBtn) cancelTimerBtn.addEventListener('click', cancelTimer);
+
         updateDisplay();
-        statusDisplay.textContent = "Mode: Dibatalkan";
     }
-
-    if(startPomodoroBtn) startPomodoroBtn.addEventListener('click', () => startTimer(25, 'Belajar'));
-    if(startShortBreakBtn) startShortBreakBtn.addEventListener('click', () => startTimer(5, 'Istirahat Singkat'));
-    if(startLongBreakBtn) startLongBreakBtn.addEventListener('click', () => startTimer(15, 'Istirahat Panjang'));
-    if(cancelTimerBtn) cancelTimerBtn.addEventListener('click', cancelTimer);
-
-    updateDisplay();
 
     const countdownElements = document.querySelectorAll('.countdown');
 
