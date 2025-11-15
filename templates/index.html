@@ -14,12 +14,13 @@
                     <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
                 </div>
                 <h1>STUDENT SNEM</h1>
+                <br>
                 <h3>Schedule and Exam Management</h3>
             </div>
             <div class="header-actions">
                 <span class="header-username">{{ session.get('username', 'User') }}</span>
                 <a class="btn-timer" href="{{ url_for('pomodoro') }}" target="_blank" rel="noopener" title="Buka Timer Pomodoro">⏱️ Timer</a>
-                <a class="btn-logout" href="{{ url_for('logout') }}" title="Keluar">🚪 Keluar</a>
+                <a class="btn-logout" href="{{ url_for('logout') }}" title="Keluar">Keluar</a>
             </div>
         </div>
     </header>
@@ -64,6 +65,36 @@
                 {{ form_tugas.submit_tugas() }}
             </form>
         </section>
+ 
+        <section id="tugas-display">
+            <div class="section-header">
+                <h2>Daftar Tugas</h2>
+                <button class="btn-sort" onclick="toggleSort('tugas')">⬇ Deadline</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mata Kuliah</th>
+                        <th>Tugas</th>
+                        <th>Deadline</th>
+                        <th>Sisa Waktu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tugas in tugas_list %}
+                    <tr>
+                        <td>{{ tugas.jadwal.nama_matkul }}</td>
+                        <td>{{ tugas.nama_tugas }}</td>
+                        <td>{{ tugas.deadline.strftime('%d-%m-%Y %H:%M') }}</td>
+                        <td class="countdown" data-deadline="{{ tugas.deadline.isoformat() }}">Menghitung...</td>
+                        <td><a href="{{ url_for('delete_tugas', id=tugas.id) }}" class="btn-delete">Hapus</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5">Belum ada tugas.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
 
         <section id="jadwal-display">
             <div class="section-header">
@@ -92,36 +123,6 @@
                     </tr>
                     {% else %}
                     <tr><td colspan="5">Belum ada jadwal.</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-
-        <section id="tugas-display">
-            <div class="section-header">
-                <h2>Daftar Tugas</h2>
-                <button class="btn-sort" onclick="toggleSort('tugas')">⬇ Deadline</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mata Kuliah</th>
-                        <th>Tugas</th>
-                        <th>Deadline</th>
-                        <th>Sisa Waktu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tugas in tugas_list %}
-                    <tr>
-                        <td>{{ tugas.jadwal.nama_matkul }}</td>
-                        <td>{{ tugas.nama_tugas }}</td>
-                        <td>{{ tugas.deadline.strftime('%d-%m-%Y %H:%M') }}</td>
-                        <td class="countdown" data-deadline="{{ tugas.deadline.isoformat() }}">Menghitung...</td>
-                        <td><a href="{{ url_for('delete_tugas', id=tugas.id) }}" class="btn-delete">Hapus</a></td>
-                    </tr>
-                    {% else %}
-                    <tr><td colspan="5">Belum ada tugas.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
