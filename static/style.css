@@ -39,11 +39,11 @@ h1, h2, h3 {
 }
 
 header {
-    background-color: transparent;
+    background-color: var(--card-bg);
     color: var(--text-color);
-    padding: 0;
+    padding: 1rem 0 2rem 0;
     margin: 0;
-    box-shadow: none;
+    box-shadow: 0 2px 8px rgba(4, 163, 30, 0.164);
     width: 100%;
 }
 
@@ -64,7 +64,6 @@ header {
 .header-actions { margin-left: auto; display:flex; align-items:center; gap:0.6rem; }
 .header-username { color: var(--text-color); font-size:0.9rem; font-weight:600; }
 
-/* Liquid glass base button */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -88,7 +87,6 @@ header {
     box-shadow: 0 14px 36px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
-/* Accent (primary) variant */
 .btn-accent {
     background: linear-gradient(180deg, rgba(255,209,102,0.20), rgba(255,209,102,0.08));
     color: #FFFFFF;
@@ -96,21 +94,18 @@ header {
     box-shadow: 0 8px 26px rgba(255,209,102,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
-/* Outline variant */
 .btn-outline {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     color: #FFFFFF;
     border: 1px solid rgba(255,209,102,0.18);
 }
 
-/* Danger variant */
 .btn-danger {
     background: linear-gradient(180deg, rgba(201,76,76,0.14), rgba(201,76,76,0.06));
     color: #FFFFFF;
     border: 1px solid rgba(201,76,76,0.22);
 }
 
-/* Map existing utility classes to glass styles */
 .btn-timer {
     display:inline-flex;
     align-items:center;
@@ -181,7 +176,7 @@ header {
 .site-footer {
     color: rgba(255,255,255,0.8);
     text-align: center;
-    padding: 1rem 0 2rem 0;
+    padding: 3rem 0 3rem 0;
     font-size: 0.95rem;
 }
 
@@ -232,10 +227,11 @@ header {
     .container {
         grid-template-columns: 1fr 2fr;
     }
-    #pomodoro { grid-column: 1 / 2; }
+    
     #input-forms { grid-column: 1 / 2; }
-    #jadwal-display { grid-column: 2 / 3; grid-row: 1 / 2; }
-    #tugas-display { grid-column: 2 / 3; grid-row: 2 / 3; }
+    #tugas-display { grid-column: 2 / 3; grid-row: 1 / 2; }
+    #jadwal-display { grid-column: 1 / 3; grid-row: 2 / 3; }
+   
 }
 
 section {
@@ -335,7 +331,6 @@ button:hover, input[type="submit"]:hover {
 }
 
 #cancel-timer {
-    /* danger-style button */
     background: linear-gradient(180deg, rgba(201,76,76,0.14), rgba(201,76,76,0.06));
     color: #FFFFFF;
     border: 1px solid rgba(201,76,76,0.22);

@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='pomodoro.css') }}">
 </head>
 <body class="pomodoro-page">
-    <header>
-        <div class="header-inner container">
+
+    <main class="container">
+        <section class="form-card pomodoro-card">
+
+            <div class="header-inner container">
             <div class="logo-box">
                 <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
             </div>
             <h1>Timer Pomodoro</h1>
         </div>
-    </header>
 
-    <main class="container">
-        <section class="form-card pomodoro-card">
             <div class="pomodoro-display">
                 <div id="timer-display">25:00</div>
                 <p id="pomodoro-status">Mode: Siap</p>
