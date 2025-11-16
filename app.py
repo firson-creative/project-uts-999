@@ -79,9 +79,9 @@ def index():
     form_tugas.mata_kuliah.choices = [(j.id, j.nama_matkul) for j in Jadwal.query.order_by('nama_matkul').all()]
     
     if not form_tugas.mata_kuliah.choices:
-        form_tugas.mata_kuliah.choices = [(0, '--- Pilih Mata Kuliah ---')]
+        form_tugas.mata_kuliah.choices = [(0, '-- Pilih Mata Kuliah --')]
     else:
-        form_tugas.mata_kuliah.choices.insert(0, (0, '--- Pilih Mata Kuliah ---'))
+        form_tugas.mata_kuliah.choices.insert(0, (0, '-- Pilih Mata Kuliah --'))
 
     if form_jadwal.validate_on_submit() and 'submit_jadwal' in request.form:
         jadwal_baru = Jadwal(
@@ -135,16 +135,20 @@ def pomodoro():
 def delete_jadwal(id):
     jadwal_to_delete = Jadwal.query.get_or_404(id)
     Tugas.query.filter_by(jadwal_id=id).delete()
+
     db.session.delete(jadwal_to_delete)
     db.session.commit()
+
     flash('Jadwal dan tugas terkait telah dihapus.', 'success')
     return redirect(url_for('index'))
 
 @app.route('/delete/tugas/<int:id>')
 def delete_tugas(id):
     tugas_to_delete = Tugas.query.get_or_404(id)
+
     db.session.delete(tugas_to_delete)
     db.session.commit()
+
     flash('Tugas telah dihapus.', 'success')
     return redirect(url_for('index'))
 

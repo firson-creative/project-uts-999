@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda - Student SNEM</title>
+    <title>Beranda - Student UNEM</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -13,10 +13,12 @@
                 <div class="logo-box">
                     <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
                 </div>
-                <h1>STUDENT SNEM</h1>
-                <br>
-                <h3>Schedule and Exam Management</h3>
-            </div>
+                
+                <div class="header-text-group">
+                    <h1 class="header-title">STUDENT UNEM</h1>
+                    <h3 class="header-tagline">Ur-Schedule and Exam Management</h3>
+                </div>
+                </div>
             <div class="header-actions">
                 <span class="header-username">{{ session.get('username', 'User') }}</span>
                 <a class="btn-timer" href="{{ url_for('pomodoro') }}" target="_blank" rel="noopener" title="Buka Timer Pomodoro">⏱️ Timer</a>
@@ -129,7 +131,7 @@
     </main>
 
     <footer class="site-footer container">
-        dibuat oleh Firson Creative bersama Google Gemini dan Github Copilot
+        © dibuat oleh Firson Creative bersama Google Gemini dan Github Copilot
     </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
