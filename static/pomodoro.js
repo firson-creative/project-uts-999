@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const defaults = { study: 25, short: 5, long: 15 };
 
-    // Tick sound from static file
     const tickAudio = new Audio('/static/tick.wav');
     tickAudio.volume = 0.5;
 
@@ -55,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             secondsRemaining--;
             updateDisplay();
 
-            // Play tick sound during countdown (except last second)
             if (secondsRemaining > 0) {
                 try {
                     tickAudio.currentTime = 0;

@@ -1,4 +1,3 @@
-/* Pomodoro-specific small tweaks */
 body.pomodoro-page { 
     display: flex; 
     flex-direction: 
@@ -95,7 +94,6 @@ body.pomodoro-page main.container {
 	.pomodoro-display #timer-display { font-size: 2.6rem; }
 }
 
-/* Center header title only on Pomodoro page */
 body.pomodoro-page .header-inner { 
     justify-content: center; 
 }
