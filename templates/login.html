@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Student SNEM</title>
+    <title>Login - Student UNEM</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
@@ -13,8 +13,8 @@
             <div class="login-logo">
                 <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
             </div>
-            <h1 class="app-title">Student SNEM</h1>
-            <h3 class="app-tagline">Schedule and Exams Management</h3>
+            <h1 class="app-title">Student UNEM</h1>
+            <h3 class="app-tagline">Ur-Schedule and Exams Management</h3>
             
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
