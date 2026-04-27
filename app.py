@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, DateTimeLocalField, SubmitField
@@ -7,13 +7,23 @@ from wtforms.validators import DataRequired
 from datetime import datetime, timezone
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='static',
+    static_url_path='/static',
+    template_folder='templates'
+)
 secret_key = os.environ.get('SECRET_KEY')
 if not secret_key:
     raise RuntimeError('SECRET_KEY environment variable is required')
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'project.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory(app.static_folder, filename)
 
 db = SQLAlchemy(app)
 
